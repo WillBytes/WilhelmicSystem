@@ -1,6 +1,6 @@
 ﻿using System;
 using Avalonia.Controls;
-using Wilhelmic_System.ViewModels; // Make sure this namespace is correct
+using Wilhelmic_System.ViewModels;
 
 namespace Wilhelmic_System.Views
 {
@@ -14,10 +14,11 @@ namespace Wilhelmic_System.Views
 
         private void PopulateMonthView()
         {
+            Mathematics.ProcessEpoch(); // Ensure that the right data is provided
             bool isLeapYear = Mathematics.leapYearInd == 1;
             int currentMonthIndex = (int)Mathematics.ntpMonth;
 
-            // Determine the length of the current month in Wilhelmic calendar
+            // Determine the length of the current month
             int monthLength = GetMonthLength(currentMonthIndex, isLeapYear);
 
             // Determine the number of weeks in the grid
@@ -39,13 +40,16 @@ namespace Wilhelmic_System.Views
 
         private int GetMonthLength(int monthIndex, bool isLeapYear)
         {
-            // Special handling for the first month in the Wilhelmic calendar
+            // Special handling for the first month
             if (monthIndex == 0)
             {
                 return isLeapYear ? 2 : 1;
             }
             // The other months always have 28 days
-            return 28;
+            else
+            {
+                return 28;
+            }
         }
 
         private void SetupGrid(int numberOfWeeks)
