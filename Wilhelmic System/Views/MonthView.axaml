@@ -1,7 +1,19 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Wilhelmic_System.Views.MonthView">
-			 <Grid x:Name="MonthViewGrid">
-		<!-- Dynamic grid definition will be added in code-behind -->
-	</Grid>
+	<StackPanel>
+		<!-- Navigation Panel -->
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button x:Name="PrevMonthButton" Content="-" Width="60"/>
+			<Button x:Name="NextMonthButton" Content="+" Width="60"/>
+		</StackPanel>
+
+		<!-- Month View Grid -->
+		<Grid x:Name="MonthViewGrid">
+			<!-- Grid Definitions will be dynamically set in the Code-Behind -->
+		</Grid>
+
+		<!-- Event Panel -->
+		<TextBlock x:Name="EventPanel" Padding="10" TextWrapping="Wrap"/>
+	</StackPanel>
 </UserControl>

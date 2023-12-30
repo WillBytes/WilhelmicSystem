@@ -58,7 +58,7 @@ namespace Wilhelmic_System.ViewModels
 
         private static string PrintMonth()
         {
-            string[] monthArr = { "Nullus", "Lupus", "Nix", "Mors", "Roseus", "Flos", "Fragium", "Tonitruum", "Rubrum", "Messis", "Venator", "Gelus", "Frigus", "Quercus" };
+            string[] monthArr = { "Nullus", "Luparis", "Nivium", "Vermix", "Rosula", "Floralis", "Fragara", "Cervido", "Sturion", "Frugena", "Venatrix", "Castoris", "Gelida", "Frigora" };
 
             // Assuming that ntpMonth is correctly set in Mathematics
             uint monthIndex = Mathematics.ntpMonth;
