@@ -46,32 +46,32 @@ namespace Wilhelmic_System.ViewModels
             minute -= hour * minutesPerHour;
             day = hour / hoursPerDay;
             hour -= day * hoursPerDay;
-            second = (int)totalSeconds; // Assign the remaining seconds to 'second'
+            second = (int)totalSeconds; // Any remaining seconds remain as the seconds unit
 
-            // Calculate year, month, and day
+            // Calculate the year, month, and day
             year = 1970;
             while (true)
             {
                 bool isLeapYear = ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
-                int daysThisYear = isLeapYear ? daysPerLeapYear : daysPerNormalYear;
+                int daysThisYear = isLeapYear ? daysPerLeapYear : daysPerNormalYear; //Alternate length of year
 
-                if (day < daysThisYear)
+                if (day < daysThisYear) //stop the iteration if the day count is lower than the length of the year
                     break;
 
-                day -= daysThisYear;
+                day -= daysThisYear; //increase the year if day count > length of year
                 year++;
             }
 
-            // Calculate month and day of the month
+            // Calculate the month and the day of the month
             month = 0;
             while (true)
             {
                 // Check for leap year
                 bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 
-                // Determine days in the current month
+                // Determine the number of days in the current month
                 int daysThisMonth;
-                if (month == 0)
+                if (month == 0) // alternate the length of the first month depending on leap or non-leap
                 {
                     daysThisMonth = isLeapYear ? daysInFirstMonthLeap : daysInFirstMonthNonLeap;
                 }
@@ -80,28 +80,33 @@ namespace Wilhelmic_System.ViewModels
                     daysThisMonth = daysInNormalMonth;
                 }
 
-                if (day < daysThisMonth)
+                if (day < daysThisMonth) //break the loop if day count is less than month length
                     break;
 
-                day -= daysThisMonth;
+                day -= daysThisMonth; //increase month count if day count > month length
                 month++;
             }
         }
 
-        public static string ImperialToMetricTime()
+        public static (int MHour, int MMinute, int MSecond) ImperialMetricConversion()
         {
             int BSecondH = (int)(ntpHour * 3600);
             int BSecondM = (int)(ntpMinute * 60);
             int BSecondS = (int)ntpSecond;
-            int BSecond = (int)(BSecondS += BSecondM += BSecondH);
+            int BSecond = BSecondH + BSecondM + BSecondS;
             int MCSecond = (int)(BSecond / 0.864);
-            int MSecond = (int)(MCSecond % 100);
+            int MSecond = MCSecond % 100;
             MCSecond /= 100;
-            int MMinute = (int)(MCSecond % 100);
+            int MMinute = MCSecond % 100;
             MCSecond /= 100;
-            int MHour = (int)(MCSecond % 10);
-            MCSecond /= 10;
+            int MHour = MCSecond % 10;
 
+            return (MHour, MMinute, MSecond);
+        }
+
+        public static string ImperialToMetricTime()
+        {
+            var (MHour, MMinute, MSecond) = ImperialMetricConversion();
             return $"{MHour} : {MMinute} : {MSecond}, {ntpDate}";
         }
     }

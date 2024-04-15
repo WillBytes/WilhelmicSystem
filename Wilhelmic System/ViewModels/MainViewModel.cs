@@ -32,9 +32,9 @@ namespace Wilhelmic_System.ViewModels
                 Mathematics.ProcessEpoch();
 
                 string imperialToMetricTime = Mathematics.ImperialToMetricTime();
-                string specialDay = CheckForSpecialDays();
+                string PrintWeekday = CheckForSpecialDays();
 
-                return $"{imperialToMetricTime}, {specialDay}, {PrintMonth()} {Mathematics.ntpYear} ";
+                return $"{imperialToMetricTime}, {PrintWeekday}, {PrintMonth()} {Mathematics.ntpYear} ";
             }
         }
 
@@ -47,10 +47,10 @@ namespace Wilhelmic_System.ViewModels
             }
 
             // Return standard weekday if not a special day
-            return numToDay((Mathematics.ntpDate - 1) % 7);
+            return CheckWeekday((Mathematics.ntpDate - 1) % 7);
         }
 
-        public static string numToDay(uint num)
+        public static string CheckWeekday(uint num)
         {
             string[] days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             return days[num];
@@ -60,15 +60,15 @@ namespace Wilhelmic_System.ViewModels
         {
             string[] monthArr = { "Nullus", "Luparis", "Nivium", "Vermix", "Rosula", "Floralis", "Fragara", "Cervido", "Sturion", "Frugena", "Venatrix", "Castoris", "Gelida", "Frigora" };
 
-            // Assuming that ntpMonth is correctly set in Mathematics
+            // Set the month index to the current month in the Mathematics Module
             uint monthIndex = Mathematics.ntpMonth;
 
-            // Check if monthIndex is within the valid range
+            // Debugging Code (Irrelevant to the function of the program, should be removed in final!)
             if (monthIndex >= monthArr.Length)
             {
                 throw new InvalidOperationException($"Invalid month value: {monthIndex}");
             }
-
+            // return the value of the month array, after placing monthIndex inside of it
             return monthArr[monthIndex];
         }
     }
