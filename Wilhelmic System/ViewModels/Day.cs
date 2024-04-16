@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json
+using Wilhelmic_System.ViewModels;
 
 namespace Wilhelmic_System.ViewModels
 {
@@ -34,6 +38,8 @@ namespace Wilhelmic_System.ViewModels
         }
     }
 
+    // Below is everything to do with events
+
     public class WilhelmicEventItem
     {
         public string Title { get; set; }
@@ -51,9 +57,51 @@ namespace Wilhelmic_System.ViewModels
             Location = location;
         }
     }
-}
     public class WilhelmicEvents
     {
-        public
+        private List<WilhelmicEventItem> events;
+        private string filePath = "WilhelmicEvents.json";
+        
+        public WilhelmicEvents()
+        {
+            LoadEvents();
+        }
 
+        private void LoadEvents()
+        {
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+                events = JsonConvert.DeserializeObject<list<WilhelmicEventItem>>(json);
+            }
+            else
+            {
+                events = new List<WilhelmicEventItem>();
+            }
+        }
+
+        public void SaveEvents()
+        {
+            string json = JsonConvert.SerializeObject(events, Formatting.Indented);
+            File.WriteAllText(filePath, json);
+        }
+
+        public void AddEvent(WilhelmicEventItem eventItem)
+        {
+            events.Add(eventItem);
+            SaveEvents();
+        }
+
+        public bool RemoveEvent(WilhelmicEventItem eventItem)
+        {
+            bool removed = events.Remove(eventItem);
+            if (removed)
+            {
+                SaveEvents();
+            }
+            return removed;
+        }
+
+        public List<WilhelmicEventItem> GetEventsOnDate(DateTime date)
     }
+}
