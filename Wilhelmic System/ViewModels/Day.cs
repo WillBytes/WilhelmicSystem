@@ -13,16 +13,15 @@ namespace Wilhelmic_System.ViewModels
             UpdateDate();
         }
 
-       // public void AddEvent(WilhelmicEventItem eventItem)
-       // {
-       //     WihelmicEvents.Add(eventItem);
-       // }
+        public void AddEvent(WilhelmicEventItem eventItem)
+        {
+            WihelmicEvents.Add(eventItem);
+        }
 
         public void UpdateDate()
         {
             Mathematics.ProcessEpoch();
-            this.Date = new DateTime((int)Mathematics.ntpYear, (int)Mathematics.ntpMonth, (int)Mathematics.ntpDate);
-            AddEvent(WilhelmicEventItem.TestEvent);
+            this.Date = new DateTime((int)Mathematics.ntpYear, (int)Mathematics.ntpMonth, (int)Mathematics.ntpDate);;
         }
 
         public double UpdateTimeBarPos()
@@ -51,7 +50,10 @@ namespace Wilhelmic_System.ViewModels
             Description = description;
             Location = location;
         }
-
-        public static readonly WilhelmicEventItem TestEvent = new EventItem(title: "test", startTime: new DateTime(2024, 4, 20, 4, 0, 0), endTime: new DateTime(2024, 4, 20, 5, 0, 0), description: "lol", location: "lol");
     }
 }
+    public class WilhelmicEvents
+    {
+        public
+
+    }
