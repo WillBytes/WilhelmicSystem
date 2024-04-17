@@ -10,12 +10,25 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
-	<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <None Remove="Views\MainWindow.axaml.bak" />
+    <None Remove="Views\MonthView.axaml.bak" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaXaml Include="Views\MainWindow.axaml.bak" />
+    <AvaloniaXaml Include="Views\MonthView.axaml.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+	<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
   </ItemGroup>
 </Project>

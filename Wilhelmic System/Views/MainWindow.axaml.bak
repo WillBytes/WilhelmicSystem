@@ -12,6 +12,5 @@
 	<!-- Use a container like Grid or StackPanel -->
 	<StackPanel>
 		<views:MainView />
-		<views:DayCellView />
 	</StackPanel>
 </Window>

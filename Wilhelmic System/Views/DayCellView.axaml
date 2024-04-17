@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:converters"
+             x:Class="Wilhelmic_System.Views.DayCellView"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+	<UserControl.Resources>
+		<converters:TimeToMarginConverter x:Key="TimeToMarginConverter"/>
+	</UserControl.Resources>
+	<Border BorderThickness="1" BorderBrush="#CCC" CornerRadius="5" Padding="5">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<!-- Header for date -->
+				<RowDefinition Height="*"/>
+				<!-- Timeline and events -->
+			</Grid.RowDefinitions>
+			<TextBlock Text="{Binding Date, StringFormat='{}{0:MMMM dd, yyyy}'}"
+                       FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"/>
+
+			<!-- Timeline and current time indicator -->
+			<Canvas Grid.Row="1">
+				<ItemsControl ItemsSource="{Binding TimeLabels}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" VerticalAlignment="Top"
+                                       Margin="{Binding, Converter={StaticResource TimeToMarginConverter}}"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+				<!-- Current time indicator -->
+				<Rectangle Height="2" Width="100" Fill="Red"
+                           Canvas.Top="{Binding CurrentTimePosition}" />
+			</Canvas>
+		</Grid>
+	</Border>
+</UserControl>

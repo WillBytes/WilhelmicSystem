@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Wilhelmic_System.ViewModels;
-using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using ReactiveUI;
+using System.Collections.ObjectModel;
 
 namespace Wilhelmic_System.ViewModels
 {
     public class DayCell
     {
         public DateTime Date { get; private set; }
-        public List<WilhelmicEvents> Events { get; private set; } = new List<WilhelmicEvents>();
 
         public DayCell()
         {
@@ -24,7 +20,7 @@ namespace Wilhelmic_System.ViewModels
 
         public void AddEvent(WilhelmicEventItem eventItem)
         {
-            WihelmicEvents.Add(eventItem);
+            AddEvent(eventItem);
         }
 
         public void UpdateDate()
@@ -46,6 +42,7 @@ namespace Wilhelmic_System.ViewModels
     public class DayCellViewModel : ReactiveObject
     {
         private DayCell _dayCell;
+        public ObservableCollection<string> TimeLabels { get; } = new ObservableCollection<string>();
 
         public DayCell DayCell
         {
@@ -64,8 +61,6 @@ namespace Wilhelmic_System.ViewModels
             this.RaisePropertyChanged(nameof(DayCell)); // Notify UI to update
         }
     }
-
-
 
     // Below is everything to do with events
 
@@ -101,7 +96,7 @@ namespace Wilhelmic_System.ViewModels
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                events = JsonConvert.DeserializeObject<list<WilhelmicEventItem>>(json);
+                events = JsonConvert.DeserializeObject<List<WilhelmicEventItem>>(json);
             }
             else
             {
