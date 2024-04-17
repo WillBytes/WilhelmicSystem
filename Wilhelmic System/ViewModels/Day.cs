@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json
+using Newtonsoft.Json;
 using Wilhelmic_System.ViewModels;
+using System.Reactive;
+using System.Reactive.Linq;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using ReactiveUI;
 
 namespace Wilhelmic_System.ViewModels
 {
@@ -37,6 +42,30 @@ namespace Wilhelmic_System.ViewModels
             return (double)totalMetricSeconds / DayConstant;
         }
     }
+
+    public class DayCellViewModel : ReactiveObject
+    {
+        private DayCell _dayCell;
+
+        public DayCell DayCell
+        {
+            get => _dayCell;
+            set => this.RaiseAndSetIfChanged(ref _dayCell, value);
+        }
+
+        public DayCellViewModel()
+        {
+            _dayCell = new DayCell();
+        }
+
+        public void RefreshDayCell()
+        {
+            DayCell.UpdateDate();
+            this.RaisePropertyChanged(nameof(DayCell)); // Notify UI to update
+        }
+    }
+
+
 
     // Below is everything to do with events
 
@@ -103,5 +132,14 @@ namespace Wilhelmic_System.ViewModels
         }
 
         public List<WilhelmicEventItem> GetEventsOnDate(DateTime date)
+        {
+            return events.Where(e => e.StartTime.Date == date.Date).ToList();
+        }
+
+        public List<WilhelmicEventItem> GetAllEvents()
+        {
+            return new List<WilhelmicEventItem>(events);
+        }
+
     }
 }
