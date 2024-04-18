@@ -12,5 +12,6 @@
 	<!-- Use a container like Grid or StackPanel -->
 	<StackPanel>
 		<views:MainView />
+		<views:MonthView />
 	</StackPanel>
 </Window>

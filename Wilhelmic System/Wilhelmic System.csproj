@@ -10,26 +10,6 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
-  
-  <ItemGroup>
-    <Compile Remove="Views\MonthView.axaml.cs" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <None Remove="Views\MainWindow.axaml.bak" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <AvaloniaXaml Include="Views\MainWindow.axaml.bak" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <None Include="Views\MonthView.axaml.cs" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.10" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
