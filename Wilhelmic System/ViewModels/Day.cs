@@ -28,19 +28,18 @@ namespace Wilhelmic_System.ViewModels
             if (IsToday())
             {
                 var (MHour, MMinute, _) = Mathematics.ImperialMetricConversion();
-                // Assuming each hour block corresponds to 10 units in your UI system
-                CurrentTimeIndicator = MHour * 10 + (MMinute / 10.0);  // Convert minutes to a fraction of the 10 units per hour
+                CurrentTimeIndicator = MHour * 10 + (MMinute / 100);  // Convert minutes to a fraction of the 100 units per hour
             }
             else
             {
-                CurrentTimeIndicator = -1;  // Indicates that the time bar should not be displayed
+                CurrentTimeIndicator = -1;  // Stops the time bar from being displayed (invalid if not 'today')
             }
         }
 
         public bool IsToday()
         {
             Mathematics.ProcessEpoch();
-            var today = new DateStruct(Mathematics.ntpYear, Mathematics.ntpMonth, Mathematics.ntpDate);
+            var today = new DateStruct((int)Mathematics.ntpYear, (int)Mathematics.ntpMonth, (int)Mathematics.ntpDate);
             return Date == today;
         }
     }
