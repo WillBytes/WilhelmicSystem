@@ -47,7 +47,7 @@ namespace Wilhelmic_System.ViewModels
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Year, Month, Day)
+			return HashCode.Combine(Year, Month, Day);
 		}
 		public static bool operator ==(DateStruct left, DateStruct right)
 		{

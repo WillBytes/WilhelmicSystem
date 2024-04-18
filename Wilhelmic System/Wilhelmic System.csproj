@@ -12,11 +12,6 @@
 
   
   <ItemGroup>
-    <Compile Remove="ViewModels\DateStruct.cs" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
     <None Remove="Views\MainWindow.axaml.bak" />
     <None Remove="Views\MonthView.axaml.bak" />
   </ItemGroup>
@@ -25,11 +20,6 @@
   <ItemGroup>
     <AvaloniaXaml Include="Views\MainWindow.axaml.bak" />
     <AvaloniaXaml Include="Views\MonthView.axaml.bak" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <None Include="ViewModels\DateStruct.cs" />
   </ItemGroup>
 
   <ItemGroup>
