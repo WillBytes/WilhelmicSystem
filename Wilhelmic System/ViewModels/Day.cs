@@ -13,7 +13,7 @@ namespace Wilhelmic_System.ViewModels
     {
         public DateStruct Date { get; private set; }
         public ObservableCollection<WilhelmicEventItem> Events { get; } = new ObservableCollection<WilhelmicEventItem>();
-        public double CurrentTimeIndicator { get; set; }  // Represents the current time position in the cell
+        public double CurrentTimeIndicator { get; set; }  // Represents the current time as a variable line
 
         public DayCell(DateStruct date)
         {
@@ -23,7 +23,6 @@ namespace Wilhelmic_System.ViewModels
 
         public void UpdateCurrentTimeIndicator()
         {
-            // ProcessEpoch should be called externally to ensure it's up to date when this method is called
             Mathematics.ProcessEpoch();
             if (IsToday())
             {
@@ -95,29 +94,30 @@ namespace Wilhelmic_System.ViewModels
     }
     public class WilhelmicEvents
     {
-        private List<WilhelmicEventItem> events;
-        private string filePath = "WilhelmicEvents.json";
+        private List<WilhelmicEventItem> events; // creates the variable events, as a list variable for storing events data in memory
+        private string filePath = "WilhelmicEvents.json"; //defines the location where the events file will be stored
         
-        public WilhelmicEvents()
+        public WilhelmicEvents() // Procedure to call LoadEvents Procedure automatically
         {
             LoadEvents();
         }
 
         private void LoadEvents()
         {
-            if (File.Exists(filePath))
+            if (File.Exists(filePath)) // Decides if the file exists, and to deserialize it if it does
             {
                 string json = File.ReadAllText(filePath);
                 events = JsonConvert.DeserializeObject<List<WilhelmicEventItem>>(json);
             }
             else
             {
-                events = new List<WilhelmicEventItem>();
+                events = new List<WilhelmicEventItem>(); // if it doesn't exist, it'll spawn a new list and assign it to events variable
             }
         }
 
         public void SaveEvents()
         {
+            // create a file of type string json where the string variable 'events' is saved to the file
             string json = JsonConvert.SerializeObject(events, Formatting.Indented);
             File.WriteAllText(filePath, json);
         }
@@ -125,7 +125,7 @@ namespace Wilhelmic_System.ViewModels
         public void AddEvent(WilhelmicEventItem eventItem)
         {
             events.Add(eventItem);
-            SaveEvents();
+            SaveEvents(); // call to save the current list with the new changes
         }
 
         public bool RemoveEvent(WilhelmicEventItem eventItem)
@@ -133,18 +133,18 @@ namespace Wilhelmic_System.ViewModels
             bool removed = events.Remove(eventItem);
             if (removed)
             {
-                SaveEvents();
+                SaveEvents(); // call to save the current list with the new changes
             }
-            return removed;
+            return removed; // return that removed = true
         }
 
-        public List<WilhelmicEventItem> GetEventsOnDate(DateStruct date)
+        public List<WilhelmicEventItem> GetEventsOnDate(DateTime date)
         {
-            return events.Where(e => e.StartTime == date).ToList();
+            return events.Where(e => e.StartTime.Date == date.Date).ToList(); // return events of a specified date
         }
         public List<WilhelmicEventItem> GetAllEvents()
         {
-            return new List<WilhelmicEventItem>(events);
+            return new List<WilhelmicEventItem>(events); // create a new list of all events and return it
         }
 
     }
