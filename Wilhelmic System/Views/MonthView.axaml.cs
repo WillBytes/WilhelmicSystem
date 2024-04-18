@@ -16,7 +16,7 @@ namespace Wilhelmic_System.Views
             InitializeComponent();
             Mathematics.ProcessEpoch();
 
-            // Initialize controls from XAML
+            // Initialize the controls from the axaml
             MonthViewGrid = this.FindControl<Grid>("MonthViewGrid");
             PrevMonthButton = this.FindControl<Button>("PrevMonthButton");
             NextMonthButton = this.FindControl<Button>("NextMonthButton");
@@ -25,14 +25,14 @@ namespace Wilhelmic_System.Views
             displayedMonth = (int)Mathematics.ntpMonth;
             displayedYear = (int)Mathematics.ntpYear;
 
-            AttachEventHandlers();
-            PopulateMonthView();
+            MonthOffSetButtons(); // call the month offset buttons
+            PopulateMonthView(); 
         }
 
-        private void AttachEventHandlers()
+        private void MonthOffSetButtons()
         {
-            PrevMonthButton.Click += (s, e) => ChangeMonth(-1);
-            NextMonthButton.Click += (s, e) => ChangeMonth(1);
+            PrevMonthButton.Click += (s, e) => ChangeMonth(-1); //decrease month by passing -1 as arg
+            NextMonthButton.Click += (s, e) => ChangeMonth(1); //increase month by passing 1 as arg
         }
 
         private string FormatFullDate(int day, int month, int year)
@@ -80,12 +80,12 @@ namespace Wilhelmic_System.Views
             if (displayedMonth < 0)
             {
                 displayedMonth = 13;
-                displayedYear--; // Go to previous year
+                displayedYear--; // Decrement year
             }
             else if (displayedMonth > 13)
             {
                 displayedMonth = 0;
-                displayedYear++; // Go to next year
+                displayedYear++; // Increment year
             }
 
             PopulateMonthView();

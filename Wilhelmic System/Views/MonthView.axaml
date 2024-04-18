@@ -4,8 +4,8 @@
 	<StackPanel>
 		<!-- Navigation Panel -->
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button x:Name="PrevMonthButton" Content="-" Width="60"/>
-			<Button x:Name="NextMonthButton" Content="+" Width="60"/>
+			<Button x:Name="PrevMonthButton" Content="-" Width="30" Height="25"/>
+			<Button x:Name="NextMonthButton" Content="+" Width="30"	Height="25"/>
 		</StackPanel>
 
 		<!-- Month View Grid -->

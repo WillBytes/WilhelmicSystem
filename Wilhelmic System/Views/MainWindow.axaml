@@ -12,6 +12,6 @@
 	<!-- Use a container like Grid or StackPanel -->
 	<StackPanel>
 		<views:MainView />
-		<views:MonthView />
+		<views:MonthView FontSize="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 	</StackPanel>
 </Window>
