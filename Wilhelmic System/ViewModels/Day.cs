@@ -79,12 +79,12 @@ namespace Wilhelmic_System.ViewModels
     public class WilhelmicEventItem
     {
         public string Title { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateStruct StartTime { get; set; }
+        public DateStruct EndTime { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
 
-        public WilhelmicEventItem(string title, DateTime startTime, DateTime endTime, string description = "", string location = "")
+        public WilhelmicEventItem(string title, DateStruct startTime, DateStruct endTime, string description = "", string location = "")
         {
             Title = title;
             StartTime = startTime;
@@ -138,11 +138,10 @@ namespace Wilhelmic_System.ViewModels
             return removed;
         }
 
-        public List<WilhelmicEventItem> GetEventsOnDate(DateTime date)
+        public List<WilhelmicEventItem> GetEventsOnDate(DateStruct date)
         {
-            return events.Where(e => e.StartTime.Date == date.Date).ToList();
+            return events.Where(e => e.StartTime == date).ToList();
         }
-
         public List<WilhelmicEventItem> GetAllEvents()
         {
             return new List<WilhelmicEventItem>(events);
