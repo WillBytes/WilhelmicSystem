@@ -11,54 +11,67 @@ namespace Wilhelmic_System.ViewModels
 {
     public class DayCell
     {
-        public DateTime Date { get; private set; }
+        public DateStruct Date { get; private set; }
+        public ObservableCollection<WilhelmicEventItem> Events { get; } = new ObservableCollection<WilhelmicEventItem>();
+        public double CurrentTimeIndicator { get; set; }  // Represents the current time position in the cell
 
-        public DayCell()
+        public DayCell(DateStruct date)
         {
-            UpdateDate();
+            Date = date;
+            UpdateCurrentTimeIndicator();
         }
 
-        public void AddEvent(WilhelmicEventItem eventItem)
+        public void UpdateCurrentTimeIndicator()
         {
-            AddEvent(eventItem);
+            // ProcessEpoch should be called externally to ensure it's up to date when this method is called
+            Mathematics.ProcessEpoch();
+            if (IsToday())
+            {
+                var (MHour, MMinute, _) = Mathematics.ImperialMetricConversion();
+                // Assuming each hour block corresponds to 10 units in your UI system
+                CurrentTimeIndicator = MHour * 10 + (MMinute / 10.0);  // Convert minutes to a fraction of the 10 units per hour
+            }
+            else
+            {
+                CurrentTimeIndicator = -1;  // Indicates that the time bar should not be displayed
+            }
         }
 
-        public void UpdateDate()
+        public bool IsToday()
         {
             Mathematics.ProcessEpoch();
-            this.Date = new DateTime((int)Mathematics.ntpYear, (int)Mathematics.ntpMonth, (int)Mathematics.ntpDate);;
-        }
-
-        public double UpdateTimeBarPos()
-        {
-            Mathematics.ProcessEpoch();
-            var (MHour, MMinute, MSecond) = Mathematics.ImperialMetricConversion();
-            int totalMetricSeconds = MHour * 10000 + MMinute * 100 + MSecond;
-            double DayConstant = 100000;
-            return (double)totalMetricSeconds / DayConstant;
+            var today = new DateStruct(Mathematics.ntpYear, Mathematics.ntpMonth, Mathematics.ntpDate);
+            return Date == today;
         }
     }
 
     public class DayCellViewModel : ReactiveObject
     {
-        private DayCell _dayCell;
-        public ObservableCollection<string> TimeLabels { get; } = new ObservableCollection<string>();
-
-        public DayCell DayCell
-        {
-            get => _dayCell;
-            set => this.RaiseAndSetIfChanged(ref _dayCell, value);
-        }
+        public ObservableCollection<DayCell> DayCells { get; } = new ObservableCollection<DayCell>();
 
         public DayCellViewModel()
         {
-            _dayCell = new DayCell();
+            CreateDayCellsForRange(-2, 2);  // Create DayCells for a range around today
         }
 
-        public void RefreshDayCell()
+        private void CreateDayCellsForRange(int startOffset, int endOffset)
         {
-            DayCell.UpdateDate();
-            this.RaisePropertyChanged(nameof(DayCell)); // Notify UI to update
+            var today = DateTime.Now.Date;
+            for (int i = startOffset; i <= endOffset; i++)
+            {
+                var day = today.AddDays(i);
+                DayCells.Add(new DayCell(new DateStruct(day.Year, day.Month, day.Day)));
+            }
+        }
+
+        // Call this method regularly or when needed to update the current time indicator
+        public void RefreshCurrentTimeIndicators()
+        {
+            foreach (var cell in DayCells)
+            {
+                cell.UpdateCurrentTimeIndicator();
+            }
+            this.RaisePropertyChanged(nameof(DayCells));
         }
     }
 
