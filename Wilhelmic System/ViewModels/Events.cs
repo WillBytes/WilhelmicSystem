@@ -6,75 +6,15 @@ using Newtonsoft.Json;
 using System.Reactive.Linq;
 using ReactiveUI;
 using System.Collections.ObjectModel;
+using System.Reactive;
+using Avalonia;
+using Avalonia.Media;
+using System.Security.Cryptography.X509Certificates;
+using Avalonia.Data.Converters;
+using System.Globalization;
 
 namespace Wilhelmic_System.ViewModels
 {
-    public class DayCell
-    {
-        public DateStruct Date { get; private set; }
-        public ObservableCollection<WilhelmicEventItem> Events { get; } = new ObservableCollection<WilhelmicEventItem>();
-        public double CurrentTimeIndicator { get; set; }  // Represents the current time as a variable line
-
-        public DayCell(DateStruct date)
-        {
-            Date = date;
-            UpdateCurrentTimeIndicator();
-        }
-
-        public void UpdateCurrentTimeIndicator()
-        {
-            Mathematics.ProcessEpoch();
-            if (IsToday())
-            {
-                var (MHour, MMinute, _) = Mathematics.ImperialMetricConversion();
-                CurrentTimeIndicator = MHour * 10 + (MMinute / 100);  // Convert minutes to a fraction of the 100 units per hour
-            }
-            else
-            {
-                CurrentTimeIndicator = -1;  // Stops the time bar from being displayed (invalid if not 'today')
-            }
-        }
-
-        public bool IsToday()
-        {
-            Mathematics.ProcessEpoch();
-            var today = new DateStruct((int)Mathematics.ntpYear, (int)Mathematics.ntpMonth, (int)Mathematics.ntpDate);
-            return Date == today;
-        }
-    }
-
-    public class DayCellViewModel : ReactiveObject
-    {
-        public ObservableCollection<DayCell> DayCells { get; } = new ObservableCollection<DayCell>();
-
-        public DayCellViewModel()
-        {
-            CreateDayCellsForRange(-2, 2);  // Create DayCells for a range around today
-        }
-
-        private void CreateDayCellsForRange(int startOffset, int endOffset)
-        {
-            var today = DateTime.Now.Date;
-            for (int i = startOffset; i <= endOffset; i++)
-            {
-                var day = today.AddDays(i);
-                DayCells.Add(new DayCell(new DateStruct(day.Year, day.Month, day.Day)));
-            }
-        }
-
-        // Call this method regularly or when needed to update the current time indicator
-        public void RefreshCurrentTimeIndicators()
-        {
-            foreach (var cell in DayCells)
-            {
-                cell.UpdateCurrentTimeIndicator();
-            }
-            this.RaisePropertyChanged(nameof(DayCells));
-        }
-    }
-
-    // Below is everything to do with events
-
     public class WilhelmicEventItem
     {
         public string Title { get; set; }
