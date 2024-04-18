@@ -138,9 +138,9 @@ namespace Wilhelmic_System.ViewModels
             return removed; // return that removed = true
         }
 
-        public List<WilhelmicEventItem> GetEventsOnDate(DateTime date)
+        public List<WilhelmicEventItem> GetEventsOnDate(DateStruct date)
         {
-            return events.Where(e => e.StartTime.Date == date.Date).ToList(); // return events of a specified date
+            return events.Where(e => e.StartTime == date).ToList(); // return events of a specified date
         }
         public List<WilhelmicEventItem> GetAllEvents()
         {
