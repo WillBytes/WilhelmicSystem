@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using ReactiveUI;
 
 namespace Wilhelmic_System.ViewModels

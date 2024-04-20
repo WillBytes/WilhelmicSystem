@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Reactive.Linq;
-using ReactiveUI;
-using System.Collections.ObjectModel;
-using System.Reactive;
-using Avalonia;
-using Avalonia.Media;
-using System.Security.Cryptography.X509Certificates;
-using Avalonia.Data.Converters;
-using System.Globalization;
+using System;
 
 namespace Wilhelmic_System.ViewModels
 {
@@ -35,7 +27,7 @@ namespace Wilhelmic_System.ViewModels
     public class WilhelmicEvents
     {
         private List<WilhelmicEventItem> events; // creates the variable events, as a list variable for storing events data in memory
-        private string filePath = "WilhelmicEvents.json"; //defines the location where the events file will be stored
+        private string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WilhelmicEvents.json"); //defines the location where the events file will be stored
         
         public WilhelmicEvents() // Procedure to call LoadEvents Procedure automatically
         {
@@ -47,11 +39,12 @@ namespace Wilhelmic_System.ViewModels
             if (File.Exists(filePath)) // Decides if the file exists, and to deserialize it if it does
             {
                 string json = File.ReadAllText(filePath);
-                events = JsonConvert.DeserializeObject<List<WilhelmicEventItem>>(json);
+                events = JsonConvert.DeserializeObject<List<WilhelmicEventItem>>(json) ?? new List<WilhelmicEventItem>();
             }
             else
             {
                 events = new List<WilhelmicEventItem>(); // if it doesn't exist, it'll spawn a new list and assign it to events variable
+                SaveEvents();
             }
         }
 

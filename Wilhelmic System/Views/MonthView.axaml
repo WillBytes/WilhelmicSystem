@@ -7,13 +7,25 @@
 			<Button x:Name="PrevMonthButton" Content="-" Width="30" Height="25"/>
 			<Button x:Name="NextMonthButton" Content="+" Width="30"	Height="25"/>
 		</StackPanel>
+		<!-- Header for Month and Year -->
+		<TextBlock x:Name="MonthYearHeader"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="10"/>
 
 		<!-- Month View Grid -->
 		<Grid x:Name="MonthViewGrid">
 			<!-- Grid Definitions will be dynamically set in the Code-Behind -->
 		</Grid>
 
+		<!--Event Interaction Buttons -->
+		<StackPanel Orientation="Horizontal">
+			<Button x:Name="AddEventButton" Content="Add Event" Margin="5" />
+			<Button x:Name="RemoveEventButton" Content="Remove Event" Margin="5" />
+		</StackPanel>
+
 		<!-- Event Panel -->
-		<TextBlock x:Name="EventPanel" Padding="10" TextWrapping="Wrap"/>
+		<StackPanel x:Name="EventPanel" Orientation="Vertical" />
 	</StackPanel>
 </UserControl>
